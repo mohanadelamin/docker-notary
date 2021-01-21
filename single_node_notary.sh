@@ -54,4 +54,6 @@ sudo docker run -d -p 5000:5000 --restart always --name registry registry:2
 sudo mkdir -p ~/.docker/tls/127.0.0.1:4443/
 sudo cp $NOTARY_DIR/fixtures/notary-server.crt ~/.docker/tls/127.0.0.1\:4443/ca.crt
 
+sudo echo "127.0.0.1    notary-server" >> /etc/hosts
+
 sudo echo -e "Now run\n export DOCKER_CONTENT_TRUST_SERVER=https://127.0.0.1:4443"
