@@ -2,19 +2,21 @@
 
 NOTARY_DIR="/root/notary"
 
+echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+
 sudo apt-get update -y
 sudo apt-get remove docker docker-engine docker.io containerd runc -y
-sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common vim jq -y
+sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common vim jq wget -y
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu b_release -cs) le"
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 sudo apt-get update -y
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 sudo git clone https://github.com/theupdateframework/notary.git $NOTARY_DIR
 
-sudo docker-compose build -f $NOTARY_DIR/docker-compose.yml
-sudo docker-compose up -d -f $NOTARY_DIR/docker-compose.yml
+sudo docker-compose $NOTARY_DIR/docker-compose.yml build -f
+sudo docker-compose $NOTARY_DIR/docker-compose.yml up -d
 
 sudo curl -sSfLo /usr/local/bin/notary https://github.com/theupdateframework/notary/releases/download/v0.6.1/notary-Linux-amd64
 sudo chmod +x /usr/local/bin/notary
