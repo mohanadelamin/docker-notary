@@ -31,8 +31,8 @@ sudo chmod +x /usr/local/bin/docker-compose
 sudo git clone https://github.com/theupdateframework/notary.git $NOTARY_DIR
 
 # Build and install Notary
-sudo docker-compose $NOTARY_DIR/docker-compose.yml build -f
-sudo docker-compose $NOTARY_DIR/docker-compose.yml up -d
+sudo docker-compose -f $NOTARY_DIR/docker-compose.yml build
+sudo docker-compose -f $NOTARY_DIR/docker-compose.yml up -d
 sudo mkdir -p ~/.notary && cp $NOTARY_DIR/cmd/notary/config.json $NOTARY_DIR/cmd/notary/root-ca.crt ~/.notary
 
 # Install Notary client
